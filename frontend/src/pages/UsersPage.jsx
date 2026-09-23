@@ -5,7 +5,7 @@ import { useI18n } from '../i18n/I18nContext.jsx';
 import { getUsers } from '../api/userService.js';
 
 export function UsersPage({ onNavigate, onOpenProfile }) {
-  const { t } = useI18n();
+  const { t, tPlural } = useI18n();
   const [page, setPage] = useState(0);
   const [data, setData] = useState({ content: [], page: 0, size: 8, totalElements: 0, totalPages: 0 });
   const [error, setError] = useState('');
@@ -39,7 +39,7 @@ export function UsersPage({ onNavigate, onOpenProfile }) {
       <section className="users-page">
         <div className="section-title">
           <h2>{t('users.title')}</h2>
-          <span>{t('users.total', { count: data.totalElements })}</span>
+          <span>{tPlural('users.total', data.totalElements)}</span>
         </div>
         {error && <p className="error">{error}</p>}
         <div className="users-grid">
@@ -48,7 +48,7 @@ export function UsersPage({ onNavigate, onOpenProfile }) {
               <UserRound size={26} />
               <strong>{item.displayName}</strong>
               <span>@{item.username}</span>
-              <small>{t('users.booksCount', { count: item.booksCount })}</small>
+              <small>{tPlural('users.booksCount', item.booksCount)}</small>
             </button>
           ))}
         </div>

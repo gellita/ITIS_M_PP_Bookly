@@ -1,15 +1,25 @@
 import React from 'react';
-import { Languages } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext.jsx';
 
 export function LanguageToggle() {
-  const { language, setLanguage, t } = useI18n();
-  const nextLanguage = language === 'en' ? 'ru' : 'en';
+  const { language, setLanguage } = useI18n();
 
   return (
-    <button className="language-toggle" onClick={() => setLanguage(nextLanguage)} title={t('language.toggle')}>
-      <Languages size={18} />
-      {t('language.current')}
-    </button>
+    <div className="language-toggle" aria-label="Language switcher">
+      <button
+        type="button"
+        className={language === 'ru' ? 'active' : ''}
+        onClick={() => setLanguage('ru')}
+      >
+        RU
+      </button>
+      <button
+        type="button"
+        className={language === 'en' ? 'active' : ''}
+        onClick={() => setLanguage('en')}
+      >
+        EN
+      </button>
+    </div>
   );
 }
