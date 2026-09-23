@@ -10,6 +10,26 @@ function interpolate(template, values = {}) {
   return template.replace(/\{(\w+)}/g, (_, key) => values[key] ?? '');
 }
 
+function getPluralForm(language, count) {
+  if (language === 'ru') {
+    const mod10 = Math.abs(count) % 10;
+    const mod100 = Math.abs(count) % 100;
+
+    if (mod100 >= 11 && mod100 <= 14) {
+      return 'many';
+    }
+    if (mod10 === 1) {
+      return 'one';
+    }
+    if (mod10 >= 2 && mod10 <= 4) {
+      return 'few';
+    }
+    return 'many';
+  }
+
+  return count === 1 ? 'one' : 'other';
+}
+
 export function I18nProvider({ children }) {
   const [language, setLanguageState] = useState(() => localStorage.getItem(LANG_KEY) || 'en');
 
@@ -30,7 +50,20 @@ export function I18nProvider({ children }) {
     setLanguage,
     t(key, values) {
       const template = dictionaries[language][key] || dictionaries.en[key] || key;
+      if (typeof template !== 'string') {
+        return interpolate(template.other || Object.values(template)[0] || key, values);
+      }
       return interpolate(template, values);
+    },
+    tPlural(key, count, values = {}) {
+      const dictionaryValue = dictionaries[language][key] || dictionaries.en[key] || key;
+      if (typeof dictionaryValue === 'string') {
+        return interpolate(dictionaryValue, { ...values, count });
+      }
+
+      const form = getPluralForm(language, Number(count));
+      const template = dictionaryValue[form] || dictionaryValue.other || dictionaryValue.many || key;
+      return interpolate(template, { ...values, count });
     }
   }), [language]);
 
