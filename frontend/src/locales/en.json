@@ -53,11 +53,20 @@
   "books.starTitle": "{number} of 5",
   "shelf.title": "My shelf",
   "shelf.loading": "loading",
-  "shelf.booksCount": "{count} books",
+  "shelf.booksCount": {
+    "one": "{count} book",
+    "other": "{count} books"
+  },
   "shelf.empty": "Your shelf is empty. Add a book from the catalog.",
   "users.title": "Readers",
-  "users.total": "{count} total",
-  "users.booksCount": "{count} books",
+  "users.total": {
+    "one": "{count} reader total",
+    "other": "{count} readers total"
+  },
+  "users.booksCount": {
+    "one": "{count} book",
+    "other": "{count} books"
+  },
   "users.previous": "Previous",
   "users.next": "Next",
   "profile.empty": "This reader has not added books yet.",

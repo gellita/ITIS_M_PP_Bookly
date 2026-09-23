@@ -161,7 +161,6 @@ textarea {
 }
 
 .nav-actions button,
-.language-toggle,
 .secondary,
 .pager button,
 .actions button:first-child {
@@ -179,7 +178,27 @@ textarea {
 }
 
 .language-toggle {
-  min-width: 76px;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  min-height: 42px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .42);
+  box-shadow: 0 10px 24px rgba(111, 53, 145, .12);
+}
+
+.language-toggle button {
+  min-width: 42px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.language-toggle button.active {
+  background: linear-gradient(135deg, var(--pink), var(--violet));
+  color: white;
 }
 
 .primary {

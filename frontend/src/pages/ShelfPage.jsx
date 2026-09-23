@@ -7,7 +7,7 @@ import { useBookly } from '../store/BooklyContext.jsx';
 
 export function ShelfPage({ onNavigate }) {
   const { error, loading, shelf } = useBookly();
-  const { t } = useI18n();
+  const { t, tPlural } = useI18n();
 
   return (
     <main className="app-shell">
@@ -18,7 +18,7 @@ export function ShelfPage({ onNavigate }) {
         <section className="shelf">
           <div className="section-title">
             <h2>{t('shelf.title')}</h2>
-            <span>{loading ? t('shelf.loading') : t('shelf.booksCount', { count: shelf.length })}</span>
+            <span>{loading ? t('shelf.loading') : tPlural('shelf.booksCount', shelf.length)}</span>
           </div>
           <div className="book-grid">
             {shelf.map((item) => <BookCard key={item.id} item={item} />)}
