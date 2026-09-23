@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Save, Star, Trash2 } from 'lucide-react';
 import { RatingInput } from './RatingInput.jsx';
+import { useI18n } from '../i18n/I18nContext.jsx';
 import { useBookly } from '../store/BooklyContext.jsx';
 
 export function BookCard({ item }) {
   const { updateBook, deleteBook, setError } = useBookly();
+  const { t } = useI18n();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState({ userRating: item.userRating, review: item.review });
 
@@ -35,21 +37,21 @@ export function BookCard({ item }) {
         <p>{item.book.description}</p>
       </div>
       <div className="ratings">
-        <span><Star size={16} /> Mine: {item.userRating}</span>
-        <span>Average: {item.book.averageRating || 'n/a'}</span>
+        <span><Star size={16} /> {t('books.mine', { rating: item.userRating })}</span>
+        <span>{t('books.average', { rating: item.book.averageRating || t('books.notAvailable') })}</span>
       </div>
       {editing ? (
         <div className="edit-box">
           <RatingInput value={draft.userRating} onChange={(value) => setDraft({ ...draft, userRating: value })} />
           <textarea value={draft.review} onChange={(e) => setDraft({ ...draft, review: e.target.value })} />
-          <button className="primary" onClick={save}><Save size={18} />Save</button>
+          <button className="primary" onClick={save}><Save size={18} />{t('books.save')}</button>
         </div>
       ) : (
         <p className="review">{item.review}</p>
       )}
       <div className="actions">
-        <button onClick={() => setEditing(true)}>Edit</button>
-        <button className="danger" onClick={remove} title="Delete"><Trash2 size={18} /></button>
+        <button onClick={() => setEditing(true)}>{t('books.edit')}</button>
+        <button className="danger" onClick={remove} title={t('books.delete')}><Trash2 size={18} /></button>
       </div>
     </article>
   );

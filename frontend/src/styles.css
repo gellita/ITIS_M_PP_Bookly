@@ -112,8 +112,15 @@ textarea {
 }
 
 .link-button {
-  margin: 0 0 18px;
   font-weight: 800;
+}
+
+.auth-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 18px;
 }
 
 .landing {
@@ -154,6 +161,7 @@ textarea {
 }
 
 .nav-actions button,
+.language-toggle,
 .secondary,
 .pager button,
 .actions button:first-child {
@@ -168,6 +176,10 @@ textarea {
   color: var(--ink);
   font-weight: 850;
   box-shadow: 0 10px 24px rgba(111, 53, 145, .12);
+}
+
+.language-toggle {
+  min-width: 76px;
 }
 
 .primary {
