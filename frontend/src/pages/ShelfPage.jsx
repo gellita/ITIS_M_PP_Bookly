@@ -2,10 +2,12 @@ import React from 'react';
 import { Header } from '../components/Header.jsx';
 import { BookForm } from '../components/BookForm.jsx';
 import { BookCard } from '../components/BookCard.jsx';
+import { useI18n } from '../i18n/I18nContext.jsx';
 import { useBookly } from '../store/BooklyContext.jsx';
 
 export function ShelfPage({ onNavigate }) {
   const { error, loading, shelf } = useBookly();
+  const { t } = useI18n();
 
   return (
     <main className="app-shell">
@@ -15,12 +17,12 @@ export function ShelfPage({ onNavigate }) {
         <BookForm />
         <section className="shelf">
           <div className="section-title">
-            <h2>My shelf</h2>
-            <span>{loading ? 'loading' : `${shelf.length} books`}</span>
+            <h2>{t('shelf.title')}</h2>
+            <span>{loading ? t('shelf.loading') : t('shelf.booksCount', { count: shelf.length })}</span>
           </div>
           <div className="book-grid">
             {shelf.map((item) => <BookCard key={item.id} item={item} />)}
-            {shelf.length === 0 && !loading && <div className="empty glass-panel">Your shelf is empty. Add a book from the catalog.</div>}
+            {shelf.length === 0 && !loading && <div className="empty glass-panel">{t('shelf.empty')}</div>}
           </div>
         </section>
       </section>

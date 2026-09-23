@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { RatingInput } from './RatingInput.jsx';
+import { useI18n } from '../i18n/I18nContext.jsx';
 import { useBookly } from '../store/BooklyContext.jsx';
 
 const emptyForm = {
@@ -15,6 +16,7 @@ const emptyForm = {
 
 export function BookForm() {
   const { books, addBook, setError } = useBookly();
+  const { t } = useI18n();
   const [form, setForm] = useState(emptyForm);
   const [query, setQuery] = useState('');
   const selectedBook = books.find((book) => book.id === Number(form.bookId));
@@ -49,17 +51,17 @@ export function BookForm() {
 
   return (
     <aside className="side-panel">
-      <h2>Add a book</h2>
+      <h2>{t('books.addBook')}</h2>
       <form onSubmit={handleSubmit} className="form">
         <div className="tabs compact">
-          <button type="button" className={form.mode === 'existing' ? 'active' : ''} onClick={() => setForm({ ...form, mode: 'existing' })}>Catalog</button>
-          <button type="button" className={form.mode === 'new' ? 'active' : ''} onClick={() => setForm({ ...form, mode: 'new' })}>New book</button>
+          <button type="button" className={form.mode === 'existing' ? 'active' : ''} onClick={() => setForm({ ...form, mode: 'existing' })}>{t('books.catalog')}</button>
+          <button type="button" className={form.mode === 'new' ? 'active' : ''} onClick={() => setForm({ ...form, mode: 'new' })}>{t('books.newBook')}</button>
         </div>
         {form.mode === 'existing' ? (
           <div className="catalog-picker">
             <label className="search-field">
               <Search size={18} />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by title or author" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('books.searchPlaceholder')} />
             </label>
             <input value={form.bookId} onChange={() => {}} className="hidden-input" required />
             <div className="catalog-list">
@@ -75,18 +77,18 @@ export function BookForm() {
                 </button>
               ))}
             </div>
-            {selectedBook && <p className="selected-book">Selected: {selectedBook.title}</p>}
+            {selectedBook && <p className="selected-book">{t('books.selected', { title: selectedBook.title })}</p>}
           </div>
         ) : (
           <>
-            <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Title" required />
-            <input value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} placeholder="Author" required />
-            <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description" required />
+            <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder={t('books.title')} required />
+            <input value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} placeholder={t('books.author')} required />
+            <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder={t('books.description')} required />
           </>
         )}
         <RatingInput value={form.userRating} onChange={(value) => setForm({ ...form, userRating: value })} />
-        <textarea value={form.review} onChange={(e) => setForm({ ...form, review: e.target.value })} placeholder="Your review" required />
-        <button className="primary" type="submit"><Plus size={18} />Add to shelf</button>
+        <textarea value={form.review} onChange={(e) => setForm({ ...form, review: e.target.value })} placeholder={t('books.yourReview')} required />
+        <button className="primary" type="submit"><Plus size={18} />{t('books.addToShelf')}</button>
       </form>
     </aside>
   );

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { BookOpen, Star, UserRound } from 'lucide-react';
+import { LanguageToggle } from '../components/LanguageToggle.jsx';
+import { useI18n } from '../i18n/I18nContext.jsx';
 import { getUserProfile } from '../api/userService.js';
 
 export function PublicProfilePage({ userId, onNavigate }) {
+  const { t } = useI18n();
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
 
@@ -26,8 +29,9 @@ export function PublicProfilePage({ userId, onNavigate }) {
           <h1>Bookly</h1>
         </button>
         <nav className="nav-actions">
-          <button onClick={() => onNavigate({ name: 'users' })}>Readers</button>
-          <button onClick={() => onNavigate({ name: 'shelf' })}>My shelf</button>
+          <button onClick={() => onNavigate({ name: 'users' })}>{t('nav.readers')}</button>
+          <button onClick={() => onNavigate({ name: 'shelf' })}>{t('nav.shelf')}</button>
+          <LanguageToggle />
         </nav>
       </header>
       <section className="public-profile">
@@ -50,13 +54,13 @@ export function PublicProfilePage({ userId, onNavigate }) {
                     <p>{item.book.description}</p>
                   </div>
                   <div className="ratings">
-                    <span><Star size={16} /> Rating: {item.userRating}</span>
-                    <span>Average: {item.book.averageRating || 'n/a'}</span>
+                    <span><Star size={16} /> {t('books.rating', { rating: item.userRating })}</span>
+                    <span>{t('books.average', { rating: item.book.averageRating || t('books.notAvailable') })}</span>
                   </div>
                   <p className="review">{item.review}</p>
                 </article>
               ))}
-              {profile.books.length === 0 && <div className="empty glass-panel">This reader has not added books yet.</div>}
+              {profile.books.length === 0 && <div className="empty glass-panel">{t('profile.empty')}</div>}
             </div>
           </>
         )}
